@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-interface EachSlotData {
-  slotCount: number;
-  durationOfSlots: number;
-}
+import { EachSlotData } from "../types/slot";
 
 const SlotBookingSchema = Yup.object().shape({
   slotCount: Yup.number().min(1, "No slots to book!").required("Required"),
@@ -21,7 +17,6 @@ const initialSlotData: EachSlotData = {
 const DataCollector: React.FC<{ selectedDate: string }> = ({
   selectedDate,
 }) => {
-  console.log("selectedDate", selectedDate);
   const [msgToUser, setMsgToUser] = useState("");
   const [initialValues, setInitialValues] = useState<EachSlotData>(
     initialSlotData
@@ -69,7 +64,6 @@ const DataCollector: React.FC<{ selectedDate: string }> = ({
     setAllSlotData(updatedData);
     setMsgToUser("Data saved successfully");
   };
-  console.log("initialValues", initialValues);
 
   return (
     <div>
