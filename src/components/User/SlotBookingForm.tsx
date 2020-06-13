@@ -13,5 +13,10 @@ export const SlotBookingForm: React.FC<{ selectedDate: string }> = ({
     setslotMapping(dataForTheDay?.allSlotInfo);
   }, [selectedDate]);
 
-  return <SlotMapper slotMapping={slotMapping}></SlotMapper>;
+  return (
+    <SlotMapper
+      slotMapping={slotMapping}
+      selectedDate={selectedDate}
+    ></SlotMapper>
+  );
 };

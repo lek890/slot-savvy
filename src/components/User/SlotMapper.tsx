@@ -1,22 +1,23 @@
 import React from "react";
 import { BookingInfo } from "../../types/slot";
-import { useLocalStorge } from "../../helpers/hooks/useLocalStorge";
+import { useSaveBookedSlot } from "../../helpers/hooks/useSlotData";
 
 const saveUpdatedSlots = (allSlots) => {
-  localStorage.setItem("", JSON.stringify(allSlots));
+  localStorage.setItem("slotData", JSON.stringify(allSlots));
 };
 
-export const SlotMapper: React.FC<{ slotMapping: BookingInfo[] }> = ({
-  slotMapping,
-}) => {
+export const SlotMapper: React.FC<{
+  slotMapping: BookingInfo[];
+  selectedDate: string;
+}> = ({ slotMapping, selectedDate }) => {
+  const { saveBookedSlot } = useSaveBookedSlot();
   const handleBooking = (slot) => {
-    const updatedSlot = { ...slot, booked: true };
-    const updatedBookingSlots = slotMapping.filter(
-      (item) => item.id !== slot.id
-    );
+    // const updatedSlot = { ...slot, booked: true };
+    // const updatedBookingSlots = slotMapping.filter(
+    //   (item) => item.id !== slot.id
+    // );
 
-    const updatedSlotInfo = [...updatedBookingSlots, updatedSlot];
-    saveUpdatedSlots(updatedSlotInfo);
+    saveBookedSlot(slot.id, selectedDate);
   };
   return (
     <div>

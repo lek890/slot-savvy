@@ -25,3 +25,22 @@ export const useSlotOfDay = () => {
 
   return { getDataForTheDay };
 };
+
+export const useSaveBookedSlot = () => {
+  const { getAllSlotData } = useAllSlotData();
+
+  const saveBookedSlot = (slotId: number, date: string) => {
+    const allSlotData = getAllSlotData();
+    let updatedDay = allSlotData[date];
+    updatedDay.allSlotInfo.map((item) => {
+      if (item.id == slotId) {
+        //todo: make it declarative
+        item["booked"] = true;
+      }
+    });
+    const updatedSlotData = { ...allSlotData, [date]: updatedDay };
+    localStorage.setItem("slotData", JSON.stringify(updatedSlotData));
+  };
+
+  return { saveBookedSlot };
+};
