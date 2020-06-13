@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { EachSlotData } from "../types/slot";
+import { getApplicableSlots } from "../helpers/utils/getApplicableSlots";
 
 const SlotBookingSchema = Yup.object().shape({
   slotCount: Yup.number().min(1, "No slots to book!").required("Required"),
@@ -13,7 +14,9 @@ const SlotBookingSchema = Yup.object().shape({
 const initialSlotData: EachSlotData = {
   slotCount: 0,
   durationOfSlots: 0,
+  allSlotInfo: [],
 };
+
 const DataCollector: React.FC<{ selectedDate: string }> = ({
   selectedDate,
 }) => {
@@ -58,6 +61,10 @@ const DataCollector: React.FC<{ selectedDate: string }> = ({
       [selectedDate]: {
         slotCount: parseInt(slotCount),
         durationOfSlots: parseInt(durationOfSlots),
+        allSlotInfo: getApplicableSlots(
+          { slotCount, durationOfSlots },
+          selectedDate
+        ),
       },
     };
     localStorage.setItem("slotData", JSON.stringify(updatedData));

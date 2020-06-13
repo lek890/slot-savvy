@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { getApplicableSlots } from "../../helpers/utils/getApplicableSlots";
 import { useSlotOfDay } from "../../helpers/hooks/useSlotData";
 import SlotMapper from "./SlotMapper";
 
@@ -10,8 +9,9 @@ export const SlotBookingForm: React.FC<{ selectedDate: string }> = ({
   const [slotMapping, setslotMapping] = useState([]);
 
   React.useEffect(() => {
-    const slotsAndDurations = getDataForTheDay(selectedDate);
-    setslotMapping(getApplicableSlots(slotsAndDurations, selectedDate));
+    const dataForTheDay = getDataForTheDay(selectedDate);
+    setslotMapping(dataForTheDay?.allSlotInfo);
   }, [selectedDate]);
+
   return <SlotMapper slotMapping={slotMapping}></SlotMapper>;
 };

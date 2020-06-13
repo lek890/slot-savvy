@@ -1,11 +1,10 @@
-import { EachSlotData } from "../../types/slot";
+import { EachSlotData, BookingInfo } from "../../types/slot";
 import moment from "moment";
 
 export const getApplicableSlots = (
-  { slotCount, durationOfSlots }: EachSlotData,
+  { slotCount, durationOfSlots },
   selectedDate
-) => {
-  console.log("slotCount, durationOfSlots", slotCount, durationOfSlots);
+): BookingInfo[] => {
   const STARTS_AT = 8 * 60;
   const theDate = new Date(Date.parse(selectedDate));
   const formattedDate = `${theDate.getDate()}/${
@@ -14,21 +13,24 @@ export const getApplicableSlots = (
   let startingTime = moment(formattedDate, "DD/MM/YY");
 
   let data = [];
-  let startsAt = 0;
-  for (var i = 0; i <= slotCount; i++) {
-    if (i === 0) {
-      startsAt = STARTS_AT;
+  for (var i = 1; i <= slotCount; i++) {
+    if (i === 1) {
+      startingTime = startingTime.add(STARTS_AT, "minutes");
     }
 
     //todo: fix missing minutes in between calculations
 
-    startingTime = startingTime.add(startsAt, "minutes");
     const startingTimeValue = startingTime.format("HH.mm A");
 
     const endingTime = startingTime.add(durationOfSlots, "minutes");
     const endingTimeValue = endingTime.format("HH.mm A");
 
-    startsAt = data.push(`${startingTimeValue} -  ${endingTimeValue}`);
+    const eachSlot = {
+      slot: `${startingTimeValue} -  ${endingTimeValue}`,
+      id: i,
+    };
+
+    data.push(eachSlot);
     startingTime = endingTime;
   }
 

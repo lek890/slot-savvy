@@ -2,24 +2,26 @@ import * as React from "react";
 import { EachSlotData } from "../../types/slot";
 
 export const useAllSlotData = () => {
-  const [allSlotData, setAllSlotData] = React.useState();
-
-  React.useEffect(() => {
+  const getAllSlotData = () => {
+    let data: EachSlotData[] = [];
     try {
-      const data: EachSlotData[] = JSON.parse(localStorage.getItem("slotData"));
-      setAllSlotData(data);
+      data = JSON.parse(localStorage.getItem("slotData"));
     } catch (err) {
       console.log("could not retrive from localstorage");
     }
-  }, []);
+    return data;
+  };
 
-  return { allSlotData };
+  return { getAllSlotData };
 };
 
 export const useSlotOfDay = () => {
-  const { allSlotData } = useAllSlotData();
+  const { getAllSlotData } = useAllSlotData();
 
-  const getDataForTheDay = (date: string) =>
-    (allSlotData && allSlotData[date]) || {};
+  const getDataForTheDay = (date: string): EachSlotData => {
+    const allSlotData = getAllSlotData();
+    return allSlotData[date];
+  };
+
   return { getDataForTheDay };
 };
