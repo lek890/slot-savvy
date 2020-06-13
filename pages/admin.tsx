@@ -13,7 +13,7 @@ const List: React.FC = ({}) => {
   return (
     <div>
       <h3>Admin Panel</h3>
-      <Calendar onClickDay={handleDateSelection} />
+      <Calendar onClickDay={handleDateSelection} activeStartDate={new Date()} />
       <DataCollector selectedDate={date} />
     </div>
   );
