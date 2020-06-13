@@ -2,10 +2,6 @@ import React from "react";
 import { BookingInfo } from "../../types/slot";
 import { useSaveBookedSlot } from "../../helpers/hooks/useSlotData";
 
-const saveUpdatedSlots = (allSlots) => {
-  localStorage.setItem("slotData", JSON.stringify(allSlots));
-};
-
 export const SlotMapper: React.FC<{
   slotMapping: BookingInfo[];
   selectedDate: string;

@@ -3,7 +3,8 @@ import moment from "moment";
 
 export const getApplicableSlots = (
   { slotCount, durationOfSlots },
-  selectedDate
+  selectedDate,
+  breaksInBetweenSlots
 ): BookingInfo[] => {
   const STARTS_AT = 8 * 60;
   const theDate = new Date(Date.parse(selectedDate));
@@ -31,7 +32,9 @@ export const getApplicableSlots = (
     };
 
     data.push(eachSlot);
-    startingTime = endingTime;
+    startingTime = breaksInBetweenSlots
+      ? endingTime.add(breaksInBetweenSlots, "minutes")
+      : endingTime;
   }
 
   console.log("data", data);

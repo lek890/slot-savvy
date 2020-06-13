@@ -48,7 +48,12 @@ const DataCollector: React.FC<{ selectedDate: string }> = ({
 
   const handleSubmission = (values, actions) => {
     setMsgToUser("");
-    const { slotCount, durationOfSlots } = values;
+    const {
+      slotCount,
+      durationOfSlots,
+      admissionsOnEachSlot,
+      breaksInBetweenSlots = 0,
+    } = values;
     actions.setSubmitting(false);
     if (24 * 60 - slotCount * durationOfSlots < 0) {
       setMsgToUser(
@@ -61,9 +66,12 @@ const DataCollector: React.FC<{ selectedDate: string }> = ({
       [selectedDate]: {
         slotCount: parseInt(slotCount),
         durationOfSlots: parseInt(durationOfSlots),
+        admissionsOnEachSlot: parseInt(admissionsOnEachSlot),
+        breaksInBetweenSlots: parseInt(breaksInBetweenSlots),
         allSlotInfo: getApplicableSlots(
           { slotCount, durationOfSlots },
-          selectedDate
+          selectedDate,
+          breaksInBetweenSlots
         ),
       },
     };
@@ -119,6 +127,28 @@ const DataCollector: React.FC<{ selectedDate: string }> = ({
                             : "1px solid brown",
                       }}
                     />
+                  </div>
+                )}
+              />
+              <Field
+                name="admissionsOnEachSlot"
+                render={({ field }) => (
+                  <div>
+                    <label>Number of admissions in each slot: </label>
+                    <input
+                      type="text"
+                      {...field}
+                      placeholder="number of people that you can accomodate"
+                    />
+                  </div>
+                )}
+              />
+              <Field
+                name="breaksInBetweenSlots"
+                render={({ field }) => (
+                  <div>
+                    <label>Breaks in between slots </label>
+                    <input type="text" {...field} placeholder="in minutes" />
                   </div>
                 )}
               />

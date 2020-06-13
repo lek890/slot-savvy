@@ -32,13 +32,16 @@ export const useSaveBookedSlot = () => {
   const saveBookedSlot = (slotId: number, date: string) => {
     const allSlotData = getAllSlotData();
     let updatedDay = allSlotData[date];
-    updatedDay.allSlotInfo.map((item) => {
+    const updatedSlots = updatedDay.allSlotInfo.map((item) => {
       if (item.id == slotId) {
-        //todo: make it declarative
-        item["booked"] = true;
+        return { ...item, booked: item.booked ? item.booked++ : 1 };
       }
+      return item;
     });
-    const updatedSlotData = { ...allSlotData, [date]: updatedDay };
+    const updatedSlotData = {
+      ...allSlotData,
+      [date]: { ...updatedDay, allSlotInfo: updatedSlots },
+    };
     localStorage.setItem("slotData", JSON.stringify(updatedSlotData));
   };
 
